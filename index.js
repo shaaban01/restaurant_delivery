@@ -508,6 +508,61 @@ app.get("/search/orders", async (req, res) => {
   res.json(results);
 });
 
+// Get all menu items with restaurant information
+app.get("/menu-items", (req, res) => {
+  const sql = `
+    SELECT MenuItem.*, Restaurant.Name AS RestaurantName, Restaurant.Location AS RestaurantLocation
+    FROM MenuItem
+    JOIN Restaurant ON MenuItem.RestaurantId = Restaurant.RestaurantId
+  `;
+  connection.query(sql, (err, results) => {
+    if (err) throw err;
+    res.send(results);
+  });
+});
+
+// Get all reviews with customer and restaurant information
+app.get("/reviews", (req, res) => {
+  const sql = `
+    SELECT Review.*, Customer.Name AS CustomerName, Restaurant.Name AS RestaurantName
+    FROM Review
+    JOIN Customer ON Review.CustomerId = Customer.CustomerId
+    JOIN Restaurant ON Review.RestaurantId = Restaurant.RestaurantId
+  `;
+  connection.query(sql, (err, results) => {
+    if (err) throw err;
+    res.send(results);
+  });
+});
+
+// Get all orders with customer and delivery driver information
+app.get("/orders", (req, res) => {
+  const sql = `
+    SELECT \`Order\`.*, Customer.Name AS CustomerName, DeliveryDriver.DriverName AS DriverName
+    FROM \`Order\`
+    JOIN Customer ON \`Order\`.CustomerId = Customer.CustomerId
+    LEFT JOIN DeliveryDriver ON \`Order\`.DeliveryDriverId = DeliveryDriver.DeliveryDriverId
+  `;
+  connection.query(sql, (err, results) => {
+    if (err) throw err;
+    res.send(results);
+  });
+});
+
+// Get all order menu items with order and menu item information
+app.get("/order-menu-items", (req, res) => {
+  const sql = `
+    SELECT OrderMenuItem.*, \`Order\`.OrderDate, MenuItem.Name AS MenuItemName, MenuItem.Price AS MenuItemPrice
+    FROM OrderMenuItem
+    JOIN \`Order\` ON OrderMenuItem.OrderId = \`Order\`.OrderId
+    JOIN MenuItem ON OrderMenuItem.MenuItemId = MenuItem.MenuItemId
+  `;
+  connection.query(sql, (err, results) => {
+    if (err) throw err;
+    res.send(results);
+  });
+});
+
 // start the server
 const port = 3000;
 app.listen(port, () => {
