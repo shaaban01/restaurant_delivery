@@ -1,96 +1,78 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="index.css" />
-    <title>Customers</title>
-  </head>
-  <body>
-    <h1>Customers</h1>
-    <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/restaurants">Restaurants</a></li>
-        <li><a href="/customers">Customers</a></li>
-        <li><a href="/drivers">Drivers</a></li>
-      </ul>
-    </nav>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Contact Information</th>
-          <th>Payment Method</th>
-          <th>Edit</th>
-          <th>Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% customers.forEach(function(customer) { %>
-        <tr>
-          <td><%= customer.Name %></td>
-          <td><%= customer.ContactInformation %></td>
-          <td><%= customer.PaymentMethod %></td>
-          <td>
-            <form
-              action="/customers/<%= customer.CustomerId %>/edit"
-              method="POST"
-            >
-              <input
-                type="text"
-                name="name"
-                placeholder="Name"
-                value="<%= customer.Name %>"
-              />
-              <input
-                type="text"
-                name="contactInformation"
-                placeholder="Contact Information"
-                value="<%= customer.ContactInformation %>"
-              />
-              <input
-                type="text"
-                name="paymentMethod"
-                placeholder="Payment Method"
-                value="<%= customer.PaymentMethod %>"
-              />
-              <button type="submit">Save</button>
-            </form>
-          </td>
-          <td>
-            <form
-              action="/customers/<%= customer.CustomerId %>/delete"
-              method="POST"
-            >
-              <button type="submit">Delete</button>
-            </form>
-          </td>
-        </tr>
-        <% }) %>
-      </tbody>
-    </table>
+<%- include('partials/header') %>
 
-    <form action="/customers" method="POST">
-      <h2>Add a new customer</h2>
-      <input type="text" name="name" placeholder="Name" required />
-      <input
-        type="text"
-        name="contactInformation"
-        placeholder="Contact Information"
-        required
-      />
-      <input
-        type="text"
-        name="paymentMethod"
-        placeholder="Payment Method"
-        required
-      />
-      <button type="submit">Add</button>
-    </form>
-    <style>
-      * {
-        padding: 5px;
-      }
-    </style>
-  </body>
-</html>
+<h1>Customers</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Contact Information</th>
+      <th>Payment Method</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% customers.forEach(function(customer) { %>
+    <tr>
+      <td><%= customer.Name %></td>
+      <td><%= customer.ContactInformation %></td>
+      <td><%= customer.PaymentMethod %></td>
+      <td>
+        <form action="/customers/<%= customer.CustomerId %>/edit" method="POST">
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            value="<%= customer.Name %>"
+          />
+          <input
+            type="text"
+            name="contactInformation"
+            placeholder="Contact Information"
+            value="<%= customer.ContactInformation %>"
+          />
+          <input
+            type="text"
+            name="paymentMethod"
+            placeholder="Payment Method"
+            value="<%= customer.PaymentMethod %>"
+          />
+          <button type="submit">Save</button>
+        </form>
+      </td>
+      <td>
+        <form
+          action="/customers/<%= customer.CustomerId %>/delete"
+          method="POST"
+        >
+          <button type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<form action="/customers" method="POST">
+  <h2>Add a new customer</h2>
+  <input type="text" name="name" placeholder="Name" required />
+  <input
+    type="text"
+    name="contactInformation"
+    placeholder="Contact Information"
+    required
+  />
+  <input
+    type="text"
+    name="paymentMethod"
+    placeholder="Payment Method"
+    required
+  />
+  <button type="submit">Add</button>
+</form>
+<style>
+  * {
+    padding: 5px;
+  }
+</style>
+<%- include('partials/footer') %>

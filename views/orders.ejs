@@ -1,0 +1,33 @@
+<h1>Place an Order</h1>
+<form method="POST" action="/placeOrder">
+  <div>
+    <label for="restaurantId">Select a Restaurant: </label>
+    <select name="restaurantId" id="restaurantId">
+      <% restaurants.forEach(function(restaurant) { %>
+      <option value="<%= restaurant.RestaurantId %>">
+        <%= restaurant.Name %>
+      </option>
+      <% }); %>
+    </select>
+  </div>
+  <div>
+    <label for="customerId">Select a Customer: </label>
+    <select name="customerId" id="customerId">
+      <% customers.forEach(function(customer) { %>
+      <option value="<%= customer.CustomerId %>"><%= customer.Name %></option>
+      <% }); %>
+    </select>
+  </div>
+  <div>
+    <label for="deliveryDriverId">Select a Delivery Driver: </label>
+    <select name="deliveryDriverId" id="deliveryDriverId">
+      <% drivers.forEach(function(driver) { %>
+      <option value="<%= driver.DeliveryDriverId %>">
+        <%= driver.DriverName %>
+      </option>
+      <% }); %>
+    </select>
+  </div>
+  <button type="submit">Place Order</button>
+</form>
+<% include('partials/footer') %>

@@ -283,9 +283,32 @@ app.post("/reviews/:id/delete", (req, res) => {
 
 // Route to get all orders
 app.get("/orders", (req, res) => {
-  connection.query("SELECT * FROM Order", (error, results) => {
+  connection.query("SELECT * FROM `Order`", (error, orderResults) => {
     if (error) throw error;
-    res.render("orders", { orders: results });
+    connection.query(
+      "SELECT * FROM `Restaurant`",
+      (error, restaurantResults) => {
+        if (error) throw error;
+        connection.query(
+          "SELECT * FROM `DeliveryDriver`",
+          (error, driverResults) => {
+            if (error) throw error;
+            connection.query(
+              "SELECT * FROM `Customer`",
+              (error, customerResults) => {
+                if (error) throw error;
+                res.render("orders", {
+                  orders: orderResults,
+                  restaurants: restaurantResults,
+                  drivers: driverResults,
+                  customers: customerResults,
+                });
+              }
+            );
+          }
+        );
+      }
+    );
   });
 });
 
@@ -404,6 +427,37 @@ app.post("/orderMenuItems/:orderId/:menuItemId/delete", (req, res) => {
     if (error) throw error;
     res.redirect("/orderMenuItems");
   });
+});
+
+// Route to view menu of selected restaurant
+app.get("/viewMenu/:id", (req, res) => {
+  const restaurantId = req.params.id;
+  connection.query(
+    "SELECT * FROM MenuItem WHERE RestaurantId = ?",
+    [restaurantId],
+    (error, results) => {
+      if (error) throw error;
+      res.render("viewMenu", { menuItems: results });
+    }
+  );
+});
+
+// Route to place order
+app.post("/placeOrder", (req, res) => {
+  const { restaurantId, customerId, deliveryDriverId } = req.body;
+  connection.query(
+    "INSERT INTO `Order` (RestaurantId, CustomerId, DeliveryDriverId) VALUES (?, ?, ?)",
+    [restaurantId, customerId, deliveryDriverId],
+    (error, results) => {
+      if (error) throw error;
+      res.redirect("/orderPlaced");
+    }
+  );
+});
+
+// Route for order placed confirmation
+app.get("/orderPlaced", (req, res) => {
+  res.render("orderPlaced");
 });
 
 // start the server
