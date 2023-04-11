@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Restaurants</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <h1>Restaurants</h1>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/restaurants">Restaurants</a></li>
+        <li><a href="/customers">Customers</a></li>
+        <li><a href="/drivers">Drivers</a></li>
+      </ul>
+    </nav>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Hours Of Operation</th>
+          <th>Is Open</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% restaurants.forEach(function(restaurant) { %>
+        <tr>
+          <td><%= restaurant.Name %></td>
+          <td><%= restaurant.Location%></td>
+          <td><%= restaurant.HoursOfOperation %></td>
+          <td><%= restaurant.IsOpen %></td>
+          <td>
+            <form
+              action="/restaurants/<%= restaurant.RestaurantId %>/edit"
+              method="POST"
+            >
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                value="<%= restaurant.Name %>"
+              />
+              <input
+                type="text"
+                name="location"
+                placeholder="Location"
+                value="<%= restaurant.Location%>"
+              />
+              <input
+                type="text"
+                name="hoursOfOperation"
+                placeholder="Hours Of Operation"
+                value="<%= restaurant.HoursOfOperation %>"
+              />
+              <input
+                type="text"
+                name="isOpen"
+                placeholder="is open"
+                value="<%= restaurant.IsOpen %>"
+              />
+              <button type="submit">Save</button>
+            </form>
+          </td>
+          <td>
+            <form
+              action="/restaurants/<%= restaurant.RestaurantId %>/delete"
+              method="POST"
+            >
+              <button type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <form action="/restaurants" method="POST">
+      <h2>Add a new restaurant</h2>
+      <input type="text" name="name" placeholder="Name" required />
+      <input type="text" name="Location" placeholder="Location" required />
+      <input
+        type="text"
+        name="HoursOfOperation"
+        placeholder="Hours of Operation"
+        required
+      />
+      <input type="text" name="IsOpen" placeholder="IsOpen" required />
+      <button type="submit">Add</button>
+    </form>
+    <style>
+      * {
+        padding: 5px;
+      }
+    </style>
+  </body>
+</html>

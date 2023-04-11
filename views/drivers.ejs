@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Drivers</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <h1>Drivers</h1>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/restaurants">Restaurants</a></li>
+        <li><a href="/customers">Customers</a></li>
+        <li><a href="/drivers">Drivers</a></li>
+      </ul>
+    </nav>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Vehicle Type</th>
+          <th>Contact Information</th>
+          <th>Driver Rating</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% drivers.forEach(function(driver) { %>
+        <tr>
+          <td><%= driver.DriverName %></td>
+          <td><%= driver.VehicleType %></td>
+          <td><%= driver.ContactInformation %></td>
+          <td><%= driver.DriverRating %></td>
+          <td>
+            <form
+              action="/drivers/<%= driver.DeliveryDriverId %>/edit"
+              method="POST"
+            >
+              <input
+                type="text"
+                name="driverName"
+                placeholder="Driver Name"
+                value="<%= driver.DriverName %>"
+              />
+              <input
+                type="text"
+                name="vehicleType"
+                placeholder="Vehicle Type"
+                value="<%= driver.VehicleType %>"
+              />
+              <input
+                type="text"
+                name="contactInformation"
+                placeholder="Contact Information"
+                value="<%= driver.ContactInformation %>"
+              />
+              <input
+                type="number"
+                name="driverRating"
+                placeholder="Driver Rating"
+                value="<%= driver.DriverRating %>"
+              />
+              <button type="submit">Save</button>
+            </form>
+          </td>
+          <td>
+            <form
+              action="/drivers/<%= driver.DeliveryDriverId %>/delete"
+              method="POST"
+            >
+              <button type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <form action="/drivers" method="POST">
+      <h2>Add a new driver</h2>
+      <input type="text" name="driverName" placeholder="Driver Name" required />
+      <input
+        type="text"
+        name="vehicleType"
+        placeholder="Vehicle Type"
+        required
+      />
+      <input
+        type="text"
+        name="contactInformation"
+        placeholder="Contact Information"
+        required
+      />
+      <input
+        type="number"
+        name="driverRating"
+        placeholder="Driver Rating"
+        required
+      />
+      <button type="submit">Add</button>
+    </form>
+  </body>
+</html>
