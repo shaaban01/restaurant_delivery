@@ -460,6 +460,54 @@ app.get("/orderPlaced", (req, res) => {
   res.render("orderPlaced");
 });
 
+// Search DeliveryDriver
+app.get("/search/delivery-drivers", async (req, res) => {
+  const searchTerm = req.query.term;
+  const query = `SELECT * FROM DeliveryDriver WHERE DriverName LIKE '%${searchTerm}%'`;
+  const results = await connection.query(query);
+  res.json(results);
+});
+
+// Search Customer
+app.get("/search/customers", async (req, res) => {
+  const searchTerm = req.query.term;
+  const query = `SELECT * FROM Customer WHERE Name LIKE '%${searchTerm}%'`;
+  const results = await connection.query(query);
+  res.json(results);
+});
+
+// Search Restaurant
+app.get("/search/restaurants", async (req, res) => {
+  const searchTerm = req.query.term;
+  const query = `SELECT * FROM Restaurant WHERE Name LIKE '%${searchTerm}%'`;
+  const results = await connection.query(query);
+  res.json(results);
+});
+
+// Search MenuItem
+app.get("/search/menu-items", async (req, res) => {
+  const searchTerm = req.query.term;
+  const query = `SELECT * FROM MenuItem WHERE Name LIKE '%${searchTerm}%'`;
+  const results = await connection.query(query);
+  res.json(results);
+});
+
+// Search Review
+app.get("/search/reviews", async (req, res) => {
+  const searchTerm = req.query.term;
+  const query = `SELECT * FROM Review WHERE ReviewText LIKE '%${searchTerm}%'`;
+  const results = await connection.query(query);
+  res.json(results);
+});
+
+// Search Order
+app.get("/search/orders", async (req, res) => {
+  const searchTerm = req.query.term;
+  const query = `SELECT * FROM \`Order\` WHERE DeliveryAddress LIKE '%${searchTerm}%'`;
+  const results = await connection.query(query);
+  res.json(results);
+});
+
 // start the server
 const port = 3000;
 app.listen(port, () => {
